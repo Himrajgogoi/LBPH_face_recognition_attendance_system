@@ -14,7 +14,7 @@ face_recognizer.read(r'D:\Python\final_cse_project\trainingData.yml')
 
 ## For Video 
 vid = cv2.VideoCapture(0)
-captureTime = 5
+captureTime = 10
 
 size= (
     int(vid.get(cv2.CAP_PROP_FRAME_WIDTH)),
@@ -26,17 +26,25 @@ names = {
     1925: "Himraj Gogoi",
     1924: "Harsh Bordhan Singh",
     1952: "Parikshit Borah",
-    2003: "Anuj  Barman"
+    2003: "Anuj  Barman",
+    1910: "Aqib Kawsar"
 }
 
 ##attendance sheet
 wb = Workbook()
 
+style = xlwt.XFStyle()
+font = xlwt.Font()
+font.bold = True
+font.colour_index = 4
+
+style.font = font
+
 title = "Attendance on " + datetime.today().strftime('%Y-%m-%d')
 sheet1 = wb.add_sheet(title, cell_overwrite_ok=True)
 
-sheet1.write(0,0, 'Roll Number')
-sheet1.write(0,1, 'Name')
+sheet1.write(0,0, 'Roll Number', style)
+sheet1.write(0,1, 'Name', style)
 
 startTime = time.time()
 while (int(time.time()-startTime) < captureTime):
@@ -56,8 +64,8 @@ while (int(time.time()-startTime) < captureTime):
             fr.put_text(test_img,"unknown",x,y)
             continue
         fr.put_text(test_img,predicted_name,x,y)
-        sheet1.write(1,0,str(label))
-        sheet1.write(1,1,names[label])
+        sheet1.write(int(str(label)[-2:]),0,str(label))
+        sheet1.write(int(str(label)[-2:]),1,names[label])
 
     resized_img = cv2.resize(test_img,(1000,700))
 
@@ -65,7 +73,7 @@ while (int(time.time()-startTime) < captureTime):
 
     if cv2.waitKey(10) == ord('q'):
         break
-wb.save('attendance.xls')
+wb.save('attendance ' + datetime.today().strftime('%Y-%m-%d')+ '.xls')
 
 
 

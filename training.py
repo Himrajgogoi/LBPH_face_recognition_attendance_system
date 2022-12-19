@@ -5,10 +5,6 @@ import os
 import face_recognition as fr
 
 
-test_img= cv2.imread(r'D:\Python\final_cse_project\petla.jpeg')
-
-faces_detected, gray_image = fr.faceDetection(test_img)
-
 #Training starts
 
 faces,faceID,names=fr.labels_for_training_data(r'D:\Python\final_cse_project\Dataset')
